@@ -1,0 +1,21 @@
+judge_model : anthropic:/claude-sonnet-4-5-20250929
+generator_anthropic : claude-haiku-4-5-20251001
+generator_llama : meta-llama/llama-4-maverick-17b-128e-instruct
+generator_mistral : mistral-small-2506
+max_len : 300
+total_stories : 100
+vocabulary: data/vocabulary.json
+output: data/stories.json
+stories_setups:
+  - altruism
+  - communication_coordination
+  - complementary_skills
+  - conflict_resolution
+  - failed_cooperation_adjustment
+  - fair_competition
+  - joint_problem_solving
+  - resource_sharing
+  - tradeoffs_and_exchange
+  - non_cooperative_agent
+  - turn_taking
+  - win_lose_inevitable
