@@ -208,3 +208,7 @@ __marimo__/
 
 .env
 /venv
+*.db
+*.lock
+*.json
+*.jsonl
