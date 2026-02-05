@@ -5,7 +5,6 @@ from anthropic import Anthropic
 from anthropic.types.message_create_params import MessageCreateParamsNonStreaming
 from anthropic.types.messages.batch_create_params import Request
 
-from groq import Groq
 from mistralai import Mistral
 from dotenv import load_dotenv
 from abc import ABC, abstractmethod
@@ -46,7 +45,7 @@ class BaseClient(ABC):
 
 class AnthropicClient(BaseClient):
 
-    def __init__(self, client : Groq | Anthropic | Mistral, config : Dict):
+    def __init__(self, client : Anthropic | Mistral, config : Dict):
         super().__init__(client, config)
 
     def dump_stories(self, results : List[str]):
@@ -116,8 +115,16 @@ class MistralClient(BaseClient):
         super().__init__(client, config)
 
     def dump_stories(self, results):
-        with open(self.config["data"]["output"], 'wb') as f:
-            f.write(results.read())
+        final_data = [{
+            "id" : result["custom_id"],
+            "text" : result["response"]["body"]["choices"][0]["message"]["content"],
+            "model" : result["response"]["body"]["model"],
+            "prompt_tokens" : result["response"]["body"]["usage"]["prompt_tokens"],
+            "output_tokens" : result["response"]["body"]["usage"]["completion_tokens"],
+            "total_tokens" : result["response"]["body"]["usage"]["total_tokens"],
+        } for result in results]
+        write_jsonl(final_data, self.config["data"]["output"])
+            #f.write(results.read())
 
     def batch_generate(self, input_prompts, file : bool = False, **kwargs):
         batch_data = [
