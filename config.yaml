@@ -1,6 +1,6 @@
 # Section to configure all the models and providers for generation
 models:
-  generator_provider : mistral # The main provider to use to generate the data
+  generator_provider : anthropic # The main provider to use to generate the data
   default_models: # Models called for generation. Dependent on generator_provider value. E.g: provider 'mistral' will use generator_mistral model
     generator_anthropic : claude-haiku-4-5-20251001
     generator_mistral : mistral-small-2506
@@ -8,9 +8,9 @@ models:
 # Options to control data generation
 generation:
   max_len : 300 # Max tokens used for output
-  total_stories : 10 # Max stories to produce in total
-  batch_size : 10 # Size of the batch
-  prompt: cooperation # Name of the prompt used to generate synthetic data. As in src/prompts.py
+  total_stories : 100 # Max stories to produce in total
+  batch_size : 100 # Size of the batch
+  prompt: cooperation-en # Name of the prompt used to generate synthetic data. As in src/prompts.py
   story_setups: # Indicates which setups to use for the stories. As in src/setups.py. If 'all' it will use all in src/setups.py
     - all
 
