@@ -107,6 +107,11 @@ Consequence: One wins, one loses, but both accept the result
 Learning: Competition can coexist with respect
 """
 
+basic_setup = """
+The story
+should have the following features: {features}.
+"""
+
 all_setups = {
     "resource_sharing" : resource_sharing,
     "turn_taking" : turn_taking,
@@ -120,4 +125,5 @@ all_setups = {
     "non_cooperative_agent" : non_cooperative_agent,
     "win_lose_inevitable" : win_lose_inevitable,
     "fair_competition" : fair_competition,
+    "basic_setup" : basic_setup,
 }

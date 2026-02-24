@@ -23,6 +23,8 @@ verbs = vocabulary["verbs"]
 nouns = vocabulary["nouns"]
 adjectives = vocabulary["adjectives"]
 places = vocabulary["places"]
+features = vocabulary["features"]
+
 if config["generation"]["story_setups"][0] == "all":
     story_setups = list(all_setups.values())
 else:
@@ -35,13 +37,25 @@ for i in tqdm(range(total_stories)):
     story_setup = story_setups[random.randint(0,len(story_setups)-1)]
     place = places[random.randint(0,len(places)-1)]
 
-    prompt = generation_prompt.format(
-        verb=verb,
-        noun=noun,
-        adjective=adjective,
-        place=place,
-        story_setup=story_setup,
-    )
+    if config["generation"]["story_setups"][0] == "basic_setup":
+        feature = [f for f in features if random.randint(0,1) == 1]
+        if not feature:
+            feature = features[random.randint(0,len(features)-1)]
+        prompt = generation_prompt.format(
+            verb=verb,
+            noun=noun,
+            adjective=adjective,
+            place=place,
+            story_setup=story_setup.format(features=str(feature)),
+        )
+    else:
+        prompt = generation_prompt.format(
+            verb=verb,
+            noun=noun,
+            adjective=adjective,
+            place=place,
+            story_setup=story_setup,
+        )
 
     input = {
         "template" : prompt.strip(),

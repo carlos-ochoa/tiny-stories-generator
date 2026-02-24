@@ -13,7 +13,7 @@ from typing import List, Dict
 from tqdm import tqdm
 import json
 import time
-from src.utils import write_jsonl
+from src.utils import write_jsonl, read_jsonl
 
 load_dotenv()
 
@@ -114,10 +114,13 @@ class MistralClient(BaseClient):
     def __init__(self, client, config):
         super().__init__(client, config)
 
-    def dump_stories(self, results):
+    def dump_stories(self, output_file_stream):
+        with open(self.config["data"]["output"], 'wb') as f:
+            f.write(output_file_stream.read())
+        results = read_jsonl(self.config["data"]["output"])
         final_data = [{
             "id" : result["custom_id"],
-            "text" : result["response"]["body"]["choices"][0]["message"]["content"],
+            "text" : result["response"]["body"]["choices"][0]["message"]["content"].replace("**", ""),
             "model" : result["response"]["body"]["model"],
             "prompt_tokens" : result["response"]["body"]["usage"]["prompt_tokens"],
             "output_tokens" : result["response"]["body"]["usage"]["completion_tokens"],
